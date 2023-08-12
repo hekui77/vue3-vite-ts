@@ -35,6 +35,7 @@ module.exports = {
     'indent': ['error', 2],
     'quotes': ['error', 'single'],
     'semi': ['error', 'always'],
+    'vue/multi-word-component-names': 'off',
     'no-unused-vars': [
       'warn',
       { varsIgnorePattern: '.*', args: 'none' }

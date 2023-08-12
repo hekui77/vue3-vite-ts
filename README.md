@@ -8,7 +8,7 @@ This template should help get you started developing with Vue 3 and TypeScript i
 - [x] **Element Plus**：Element UI 的 Vue3 版本
 - [ ] **Pinia**: 传说中的 Vuex5
 - [x] **Vite**：真的很快
-- [ ] **Vue Router**：路由路由
+- [x] **Vue Router**：路由路由
 - [x] **TypeScript**：JavaScript 语言的超集
 - [ ] **Scss**：和 Element Plus 保持一致
 - [ ] **CSS 变量**：主要控制项目的布局和颜色
