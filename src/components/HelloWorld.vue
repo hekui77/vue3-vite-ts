@@ -9,9 +9,9 @@ const count = ref(0);
 
 <template>
   <h1>{{ msg }}</h1>
-
+  <el-icon><FullScreen /></el-icon>
   <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
+    <el-button type="primary" @click="count++">count is {{ count }}</el-button>
   </div>
 </template>
 
