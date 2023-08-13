@@ -20,6 +20,7 @@ import { reactive, ref } from 'vue';
 import { User, Lock } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import router from '@/router';
+import { setToken } from '@/utils/cookies';
 
 interface formType {
   userName: string,
@@ -39,7 +40,8 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, _fields) => {
     if (valid) {
-      router.push({ name: 'home' });
+      setToken('11111');
+      router.push({ path: '/' });
     }
   });
 };
