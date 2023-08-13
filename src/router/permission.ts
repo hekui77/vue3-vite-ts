@@ -8,7 +8,7 @@ import { useUserStore } from '@/stores/modules/user';
 
 NProgress.configure({ showSpinner: false });
 
-router.beforeEach((to, _from, next) => {
+router.beforeEach(async (to, _from, next) => {
   NProgress.start();
   // 判断该用户是否登录
   if (getToken()) {
@@ -16,8 +16,11 @@ router.beforeEach((to, _from, next) => {
       // 如果已经登录，并准备进入 login 页面，则重定向到主页
       next({ path: '/' });
     } else {
+      // 判断是否有个人信息
+      if (!useUserStore().userInfo.username) {
+        await useUserStore().getInfo();
+      }
       // 获取个人信息
-      useUserStore().getInfo();
       next();
     }
   } else {
