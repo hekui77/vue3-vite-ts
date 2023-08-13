@@ -118,7 +118,7 @@ function createRequest(service: AxiosInstance) {
         'Content-Type': 'application/json'
       },
       timeout: 5000,
-      baseURL: '127.0.0.1',
+      baseURL: '',
       data: {}
     };
     // 将默认配置 defaultConfig 和传入的自定义配置 config 进行合并成为 mergeConfig
