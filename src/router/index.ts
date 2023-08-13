@@ -2,8 +2,8 @@ import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-rou
 
 
 const routes: RouteRecordRaw[] = [
-  { path: '/', component: () => import('@/pages/home/home.vue') },
-  { path: '/login', component: () => import('@/pages/login/login.vue') },
+  { path: '/', name: 'home', component: () => import('@/pages/home/home.vue') },
+  { path: '/login', name: 'login', component: () => import('@/pages/login/login.vue') },
 ];
 
 const router = createRouter({

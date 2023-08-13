@@ -1,36 +1,47 @@
 <template>
   <div class="login-container">
     <p class="title">登录系统</p>
-    <el-form :model="form">
-      <el-form-item>
-        <el-input :prefix-icon="User" v-model="form.userName" />
+    <el-form :model="form" :rules="rules" ref="formRef">
+      <el-form-item prop="userName">
+        <el-input size="large" :prefix-icon="User" v-model="form.userName" />
+      </el-form-item>
+      <el-form-item prop="passWord">
+        <el-input size="large" :prefix-icon="Lock" type="password" v-model="form.passWord" />
       </el-form-item>
       <el-form-item>
-        <el-input :prefix-icon="Lock" type="password" v-model="form.passWord" />
-      </el-form-item>
-      <el-form-item>
-        <el-button style="width: 100%;" type="primary" @click="onSubmit">登录</el-button>
+        <el-button size="large" style="width: 100%;" type="primary" @click="onSubmit(formRef)">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { User, Lock } from '@element-plus/icons-vue';
+import type { FormInstance, FormRules } from 'element-plus';
+import router from '@/router';
 
 interface formType {
   userName: string,
   passWord: string
 }
-
+const formRef = ref<FormInstance>();
 const form = reactive<formType>({
-  userName: '',
-  passWord: ''
+  userName: 'admin',
+  passWord: 'admin'
+});
+const rules = reactive<FormRules<typeof form>>({
+  userName: { required: true, message: '请输入登录账号', trigger: 'blur' },
+  passWord: { required: true, message: '请输入登录密码', trigger: 'blur' }
 });
 
-const onSubmit = () => {
-
+const onSubmit = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await formEl.validate((valid, _fields) => {
+    if (valid) {
+      router.push({ name: 'home' });
+    }
+  });
 };
 
 </script>
