@@ -8,3 +8,12 @@ export function loginApi(data: { userName: string; passWord: string; }) {
     data
   });
 }
+
+/** 获取用户详情 */
+export function getUserInfoApi() {
+  return request<ApiResponseData<{username: string, age: number}>>({
+    url: '/usersInfo/find',
+    method: 'get'
+  });
+}
+

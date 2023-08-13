@@ -7,3 +7,12 @@ Mock.mock('/usersInfo/login', {
   },
   message: 'ok'
 });
+
+Mock.mock('/usersInfo/find', {
+  code: 0,
+  data: {
+    username: '@cname',
+    'age|1-100': 20,
+  },
+  message: 'ok'
+});

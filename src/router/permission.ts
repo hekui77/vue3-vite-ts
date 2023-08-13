@@ -4,6 +4,7 @@ import { getToken } from '@/utils/cookies';
 import router from '@/router/index';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
+import { useUserStore } from '@/stores/modules/user';
 
 NProgress.configure({ showSpinner: false });
 
@@ -15,6 +16,8 @@ router.beforeEach((to, _from, next) => {
       // 如果已经登录，并准备进入 login 页面，则重定向到主页
       next({ path: '/' });
     } else {
+      // 获取个人信息
+      useUserStore().getInfo();
       next();
     }
   } else {

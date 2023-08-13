@@ -20,8 +20,7 @@ import { reactive, ref } from 'vue';
 import { User, Lock } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import router from '@/router';
-import { setToken } from '@/utils/cookies';
-import { loginApi } from '@/api/userInfo/index';
+import { useUserStore } from '@/stores/modules/user';
 
 interface formType {
   userName: string,
@@ -39,11 +38,11 @@ const rules = reactive<FormRules<typeof form>>({
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate(async (valid, _fields) => {
+  await formEl.validate((valid, _fields) => {
     if (valid) {
-      const { data } = await loginApi(form);
-      setToken(data.token);
-      router.push({ path: '/' });
+      useUserStore().login(form).then(() => {
+        router.push({ path: '/' });
+      });
     }
   });
 };
