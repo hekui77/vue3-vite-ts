@@ -3,6 +3,7 @@ import './style.css';
 import App from './App.vue';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import router from '@/router/index';
+import '@/router/permission';
 import store from '@/stores/index';
 
 const app = createApp(App);
