@@ -2,8 +2,13 @@
 import isWhiteList from '@/config/routeWhiteList';
 import { getToken } from '@/utils/cookies';
 import router from '@/router/index';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+
+NProgress.configure({ showSpinner: false });
 
 router.beforeEach((to, _from, next) => {
+  NProgress.start();
   // 判断该用户是否登录
   if (getToken()) {
     if (to.path === '/login') {
@@ -22,4 +27,8 @@ router.beforeEach((to, _from, next) => {
       next('/login');
     }
   }
+});
+
+router.afterEach(() => {
+  NProgress.done();
 });
