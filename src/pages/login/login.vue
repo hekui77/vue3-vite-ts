@@ -21,6 +21,7 @@ import { User, Lock } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import router from '@/router';
 import { setToken } from '@/utils/cookies';
+import { request } from '@/utils/service';
 
 interface formType {
   userName: string,
@@ -40,8 +41,15 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, _fields) => {
     if (valid) {
-      setToken('11111');
-      router.push({ path: '/' });
+
+      request({
+        url: '/userInfo/login',
+        method: 'post',
+      }).then(res => {
+        console.log(res);
+      });
+      // setToken('11111');
+      // router.push({ path: '/' });
     }
   });
 };
