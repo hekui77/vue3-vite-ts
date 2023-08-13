@@ -21,7 +21,7 @@ import { User, Lock } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import router from '@/router';
 import { setToken } from '@/utils/cookies';
-import { request } from '@/utils/service';
+import { loginApi } from '@/api/userInfo/index';
 
 interface formType {
   userName: string,
@@ -39,17 +39,11 @@ const rules = reactive<FormRules<typeof form>>({
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate((valid, _fields) => {
+  await formEl.validate(async (valid, _fields) => {
     if (valid) {
-
-      request({
-        url: '/userInfo/login',
-        method: 'post',
-      }).then(res => {
-        console.log(res);
-      });
-      // setToken('11111');
-      // router.push({ path: '/' });
+      const { data } = await loginApi(form);
+      setToken(data.token);
+      router.push({ path: '/' });
     }
   });
 };
