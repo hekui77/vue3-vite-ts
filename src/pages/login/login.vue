@@ -9,7 +9,7 @@
         <el-input size="large" :prefix-icon="Lock" type="password" v-model="form.passWord" />
       </el-form-item>
       <el-form-item>
-        <el-button size="large" style="width: 100%;" type="primary" @click="onSubmit(formRef)">登录</el-button>
+        <el-button :loading="loading" size="large" style="width: 100%;" type="primary" @click="onSubmit(formRef)">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -26,6 +26,8 @@ interface formType {
   userName: string,
   passWord: string
 }
+
+
 const formRef = ref<FormInstance>();
 const form = reactive<formType>({
   userName: 'admin',
@@ -36,12 +38,16 @@ const rules = reactive<FormRules<typeof form>>({
   passWord: { required: true, message: '请输入登录密码', trigger: 'blur' }
 });
 
+const loading = ref(false);
 const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, _fields) => {
     if (valid) {
+      loading.value = true;
       useUserStore().login(form).then(() => {
         router.push({ path: '/' });
+      }).finally(() => {
+        loading.value = false;
       });
     }
   });

@@ -5,6 +5,7 @@ import router from '@/router/index';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import { useUserStore } from '@/stores/modules/user';
+import { ElLoading } from 'element-plus';
 
 NProgress.configure({ showSpinner: false });
 
@@ -18,7 +19,9 @@ router.beforeEach(async (to, _from, next) => {
     } else {
       // 判断是否有个人信息
       if (!useUserStore().userInfo.username) {
+        const loadingInstance = ElLoading.service();
         await useUserStore().getInfo();
+        loadingInstance.close();
       }
       // 获取个人信息
       next();
