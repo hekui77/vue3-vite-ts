@@ -10,11 +10,12 @@ This template should help get you started developing with Vue 3 and TypeScript i
 - [x] **Vite**：真的很快
 - [x] **Vue Router**：路由路由
 - [x] **TypeScript**：JavaScript 语言的超集
+- [x] **Mockjs**：模拟请求数据
 - [ ] **Scss**：和 Element Plus 保持一致
 - [ ] **CSS 变量**：主要控制项目的布局和颜色
 - [x] **ESlint**：代码校验
 - [ ] **Prettier**：代码格式化
-- [ ] **Axios**：发送网络请求（已封装好）
+- [x] **Axios**：发送网络请求（已封装好）
 
 
 ## 功能
