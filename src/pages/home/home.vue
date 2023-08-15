@@ -15,12 +15,14 @@ const onLogout = () => {
 </script>
 
 <template>
-  <p>token: {{ useUserStore().token }}</p>
-  <div class="card">
-    <el-button type="primary" @click="count++">count is {{ count }}</el-button>
+  <div class="app-container">
+    <p>token: {{ useUserStore().token }}</p>
+    <div class="card">
+      <el-button type="primary" @click="count++">count is {{ count }}</el-button>
+    </div>
+    <router-link to="/userManage/userInfo">userInfo</router-link>
+    <el-button type="primary" @click="onLogout">退出登录</el-button>
   </div>
-  <router-link to="/userManage/userInfo">userInfo</router-link>
-  <el-button type="primary" @click="onLogout">退出登录</el-button>
 </template>
 
 <style scoped></style>

@@ -6,6 +6,7 @@ import router from '@/router/index';
 import '@/router/permission';
 import store from '@/stores/index';
 import 'element-plus/dist/index.css';
+import 'normalize.css';
 
 const app = createApp(App);
 
