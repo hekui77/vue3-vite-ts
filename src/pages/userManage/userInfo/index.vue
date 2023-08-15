@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-container">
     {{ userInfo.username }}
     {{ userInfo.age }}
   </div>

@@ -11,6 +11,10 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/dashboard',
         component: () => import('@/pages/home/home.vue'),
+        name: 'dashboard',
+        meta: {
+          title: '首页',
+        }
       }
     ]
   },
@@ -18,10 +22,17 @@ const routes: RouteRecordRaw[] = [
     path: '/userManage',
     component: Layouts,
     redirect: '/userManage/userInfo',
+    meta: {
+      title: '用户管理',
+    },
     children: [
       {
         path: '/userManage/userInfo',
         component: () => import('@/pages/userManage/userInfo/index.vue'),
+        name: 'userInfo',
+        meta: {
+          title: '个人信息',
+        }
       }
     ]
   },

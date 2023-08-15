@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import breadcrumb from './breadcrumb.vue';
-import { UserFilled } from '@element-plus/icons-vue';
 import { useUserStore } from '@/stores/modules/user';
 import router from '@/router';
 
@@ -9,6 +8,9 @@ const userStore = useUserStore();
 const logout = () => {
   userStore.logout();
   router.push('/login');
+};
+const handleUserInfo = () => {
+  router.push('/userManage/userInfo');
 };
 </script>
 
@@ -26,6 +28,9 @@ const logout = () => {
             <a target="_blank" href="https://github.com/un-pany/v3-admin-vite">
               <el-dropdown-item>GitHub</el-dropdown-item>
             </a>
+            <el-dropdown-item divided @click="handleUserInfo">
+              <span style="display: block">个人信息</span>
+            </el-dropdown-item>
             <el-dropdown-item divided @click="logout">
               <span style="display: block">退出登录</span>
             </el-dropdown-item>
