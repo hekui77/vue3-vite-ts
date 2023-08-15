@@ -1,4 +1,5 @@
 import { request } from '@/utils/service';
+import type * as Tyep from './type';
 
 /** 登录并返回 Token */
 export function loginApi(data: { userName: string; passWord: string; }) {
@@ -11,7 +12,7 @@ export function loginApi(data: { userName: string; passWord: string; }) {
 
 /** 获取用户详情 */
 export function getUserInfoApi() {
-  return request<ApiResponseData<{username: string, age: number}>>({
+  return request<ApiResponseData<Tyep.UserInfoData>>({
     url: '/api/usersInfo/find',
     method: 'get'
   });

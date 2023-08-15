@@ -6,7 +6,8 @@ import { ref, reactive } from 'vue';
 export const useUserStore = defineStore('user', () => {
   const defaultUserInfo = () => ({
     username: '',
-    age: 0
+    age: 0,
+    images: ''
   });
   const token = ref<string>(getToken() || '');
   const userInfo = reactive(defaultUserInfo());
@@ -14,8 +15,7 @@ export const useUserStore = defineStore('user', () => {
   /** 获取用户详情 */
   const getInfo = async () => {
     const { data } = await getUserInfoApi();
-    userInfo.username = data.username;
-    userInfo.age = data.age;
+    Object.assign(userInfo, data);
   };
 
   /** 登录 */
@@ -29,8 +29,7 @@ export const useUserStore = defineStore('user', () => {
   const logout = async () => {
     removeToken();
     token.value = '';
-    userInfo.username = '';
-    userInfo.age = 0;
+    Object.assign(userInfo, defaultUserInfo());
   };
 
 

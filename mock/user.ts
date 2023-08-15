@@ -1,3 +1,4 @@
+import { Random } from 'mockjs';
 import { MockMethod } from 'vite-plugin-mock';
 
 export default [
@@ -19,8 +20,9 @@ export default [
       return {
         code: 0,
         data: {
-          username: '@cname',
-          'age|1-100': 0
+          username: Random.cname(),
+          'age|1-100': 0,
+          images: Random.image('200x200', Random.color())
         },
         message: ''
       };
