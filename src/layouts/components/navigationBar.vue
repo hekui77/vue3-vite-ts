@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import breadcrumb from './breadcrumb.vue';
+import hamburger from './hamburger.vue';
 import { useUserStore } from '@/stores/modules/user';
 import router from '@/router';
 
@@ -16,6 +17,7 @@ const handleUserInfo = () => {
 
 <template>
   <div class="navigation-bar">
+    <hamburger class="hamburger" />
     <breadcrumb class="breadcrumb" />
     <div class="right-menu">
       <el-dropdown class="right-menu-item">
