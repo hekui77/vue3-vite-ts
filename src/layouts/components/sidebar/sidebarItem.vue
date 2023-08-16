@@ -60,9 +60,7 @@ const resolvePath = (routePath: string) => {
     <template v-if="theOnlyOneChild && !theOnlyOneChild.children">
       <sidebarItemLink v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
         <el-menu-item :index="resolvePath(theOnlyOneChild.path)">
-          <el-icon>
-            <location />
-          </el-icon>
+          <SvgIcon v-if="theOnlyOneChild.meta.svgIcon" :name="theOnlyOneChild.meta.svgIcon" />
           <template v-if="theOnlyOneChild.meta?.title" #title>
             {{ theOnlyOneChild.meta.title }}
           </template>
@@ -71,9 +69,7 @@ const resolvePath = (routePath: string) => {
     </template>
     <el-sub-menu v-else :index="resolvePath(props.item.path)">
       <template #title>
-        <el-icon>
-          <location />
-        </el-icon>
+        <SvgIcon v-if="props.item.meta?.svgIcon" :name="props.item.meta.svgIcon" />
         <span>{{ props.item.meta?.title  }}</span>
       </template>
       <template v-if="props.item.children">

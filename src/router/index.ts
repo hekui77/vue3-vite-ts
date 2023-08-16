@@ -14,6 +14,7 @@ export const routes: RouteRecordRaw[] = [
         name: 'dashboard',
         meta: {
           title: '首页',
+          svgIcon: 'dashboard',
         }
       }
     ]
@@ -24,6 +25,7 @@ export const routes: RouteRecordRaw[] = [
     redirect: '/userManage/index',
     meta: {
       title: '用户管理',
+      svgIcon: 'users',
     },
     children: [
       {
@@ -32,6 +34,7 @@ export const routes: RouteRecordRaw[] = [
         name: 'userManage',
         meta: {
           title: '用户管理',
+          svgIcon: 'users',
         }
       },
       {
@@ -40,6 +43,7 @@ export const routes: RouteRecordRaw[] = [
         name: 'userInfo',
         meta: {
           title: '个人信息',
+          svgIcon: 'user',
         }
       }
     ]
