@@ -1,5 +1,6 @@
 <template>
   <div :class="layoutClasses" class="app-wrapper">
+    <div v-if="layoutClasses.mobile && layoutClasses.openSidebar" class="drawer-bg" @click="handleClickOutside" />
     <!-- 左侧边栏 -->
     <sidebar class="sidebar-container" />
     <div class="main-container">
@@ -25,9 +26,15 @@ const layoutClasses = computed(() => {
   return {
     hideSidebar: !appStore.sidebar.opened,
     openSidebar: appStore.sidebar.opened,
-    mobile: false
+    mobile: appStore.sidebar.isMobile,
+    withoutAnimation: appStore.sidebar.withoutAnimation,
   };
 });
+
+/** 用于处理点击 mobile 端侧边栏遮罩层的事件 */
+const handleClickOutside = () => {
+  appStore.closeSidebar(false);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -131,6 +138,7 @@ $transition-time: 0.35s;
   &.openSidebar {
     position: fixed;
     top: 0;
+    bottom: 0;
   }
   &.hideSidebar {
     .sidebar-container {

@@ -6,7 +6,7 @@ const appStore = useAppStore();
 const { sidebar } = storeToRefs(appStore);
 
 const handleToggleClick = () => {
-  appStore.toggleSidebar();
+  appStore.toggleSidebar(false);
 };
 </script>
 
