@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import logo from '../logo.vue';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/stores/modules/app';
-
+import sidebarItem from './sidebarItem.vue';
 
 
 const appStore = useAppStore();
@@ -11,11 +11,19 @@ const { sidebar } = storeToRefs(appStore);
 
 const isCollapse = computed(() => !sidebar.value.opened);
 
+
 </script>
 
 <template>
   <div class="has-logo">
     <logo :collapse="isCollapse" />
+
+    <el-scrollbar wrap-class="scrollbar-wrapper">
+      <el-menu
+        :collapse="isCollapse">
+        <sidebarItem />
+      </el-menu>
+    </el-scrollbar>
   </div>
 </template>
 
@@ -42,13 +50,16 @@ const isCollapse = computed(() => !sidebar.value.opened);
 .el-scrollbar {
   // 多 5% 是为了在顶部模式时不显示垂直滚动条
   height: 105%;
+
   :deep(.scrollbar-wrapper) {
     // 限制水平宽度
     overflow-x: hidden !important;
+
     .el-scrollbar__view {
       height: 100%;
     }
   }
+
   // 滚动条
   :deep(.el-scrollbar__bar) {
     &.is-horizontal {
