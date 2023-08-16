@@ -6,7 +6,11 @@ import { useAppStore } from '@/stores/modules/app';
 import sidebarItem from './sidebarItem.vue';
 import { routes } from '@/router';
 import { useRoute } from 'vue-router';
+import { getCssVariableValue } from '@/utils';
 
+const v3SidebarMenuBgColor = getCssVariableValue('--v3-sidebar-menu-bg-color');
+const v3SidebarMenuTextColor = getCssVariableValue('--v3-sidebar-menu-text-color');
+const v3SidebarMenuActiveTextColor = getCssVariableValue('--v3-sidebar-menu-active-text-color');
 
 const appStore = useAppStore();
 const { sidebar } = storeToRefs(appStore);
@@ -33,8 +37,11 @@ const activeMenu = computed(() => {
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :collapse="isCollapse"
-        :default-active="activeMenu">
-        <sidebarItem v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+        :default-active="activeMenu"
+        :background-color="v3SidebarMenuBgColor"
+        :text-color="v3SidebarMenuTextColor"
+        :active-text-color="v3SidebarMenuActiveTextColor">
+        <sidebarItem v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" :is-collapse="isCollapse" />
       </el-menu>
     </el-scrollbar>
   </div>

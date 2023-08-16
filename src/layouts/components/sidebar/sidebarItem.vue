@@ -8,10 +8,16 @@ import sidebarItemLink from './sidebarItemLink.vue';
 
 interface Props {
   item: RouteRecordRaw
-  basePath: string
+  isCollapse?: boolean
+  basePath?: string
+  isFirstLevel?: boolean
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  isCollapse: false,
+  isFirstLevel: true,
+  basePath: ''
+});
 
 /** 显示的子菜单 */
 const showingChildren = computed(() => {
@@ -50,7 +56,7 @@ const resolvePath = (routePath: string) => {
 </script>
 
 <template>
-  <div v-if="!props.item.meta?.hidden">
+  <div v-if="!props.item.meta?.hidden" :class="{ 'simple-mode': props.isCollapse, 'first-level': props.isFirstLevel }">
     <template v-if="theOnlyOneChild && !theOnlyOneChild.children">
       <sidebarItemLink v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
         <el-menu-item :index="resolvePath(theOnlyOneChild.path)">
@@ -77,4 +83,30 @@ const resolvePath = (routePath: string) => {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped>
+.svg-icon {
+  min-width: 1em;
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.el-icon {
+  width: 1em;
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.simple-mode {
+  &.first-level {
+    :deep(.el-sub-menu) {
+      .el-sub-menu__icon-arrow {
+        display: none;
+      }
+      span {
+        visibility: hidden;
+      }
+    }
+  }
+}
+</style>
+

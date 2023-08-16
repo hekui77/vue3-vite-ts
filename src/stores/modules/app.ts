@@ -11,7 +11,7 @@ interface Sidebar {
 export const useAppStore = defineStore('app', () => {
   /** 侧边栏状态 */
   const sidebar: Sidebar = reactive({
-    opened: false, // 是否展开侧边栏
+    opened: true, // 是否展开侧边栏
     isMobile: false, // 是否为移动端
     withoutAnimation: false, // 是否禁用动画
   });
