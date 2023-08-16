@@ -25,7 +25,6 @@ const layoutClasses = computed(() => {
   return {
     hideSidebar: !appStore.sidebar.opened,
     openSidebar: appStore.sidebar.opened,
-    withoutAnimation: appStore.sidebar.withoutAnimation,
     mobile: false
   };
 });
