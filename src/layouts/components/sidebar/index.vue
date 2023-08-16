@@ -4,12 +4,24 @@ import logo from '../logo.vue';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/stores/modules/app';
 import sidebarItem from './sidebarItem.vue';
+import { routes } from '@/router';
+import { useRoute } from 'vue-router';
 
 
 const appStore = useAppStore();
 const { sidebar } = storeToRefs(appStore);
+const route = useRoute();
 
 const isCollapse = computed(() => !sidebar.value.opened);
+
+
+const activeMenu = computed(() => {
+  const {
+    meta: { activeMenu },
+    path
+  } = route;
+  return activeMenu ? activeMenu : path;
+});
 
 
 </script>
@@ -20,8 +32,9 @@ const isCollapse = computed(() => !sidebar.value.opened);
 
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
-        :collapse="isCollapse">
-        <sidebarItem />
+        :collapse="isCollapse"
+        :default-active="activeMenu">
+        <sidebarItem v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>

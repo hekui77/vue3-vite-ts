@@ -1,8 +1,8 @@
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router';
 const Layouts = () => import('@/layouts/index.vue');
 
-const routes: RouteRecordRaw[] = [
-  { path: '/login', component: () => import('@/pages/login/login.vue') },
+export const routes: RouteRecordRaw[] = [
+  { path: '/login', component: () => import('@/pages/login/login.vue'), meta: { hidden: true } },
   {
     path: '/',
     component: Layouts,
@@ -21,11 +21,19 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/userManage',
     component: Layouts,
-    redirect: '/userManage/userInfo',
+    redirect: '/userManage/index',
     meta: {
       title: '用户管理',
     },
     children: [
+      {
+        path: '/userManage/index',
+        component: () => import('@/pages/userManage/userManage/index.vue'),
+        name: 'userManage',
+        meta: {
+          title: '用户管理',
+        }
+      },
       {
         path: '/userManage/userInfo',
         component: () => import('@/pages/userManage/userInfo/index.vue'),
