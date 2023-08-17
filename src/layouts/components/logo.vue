@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import logo from '@/assets/layouts/logo.png?url';
-import logoText1 from '@/assets/layouts/logo-text-1.png?url';
-
 
 interface Props {
   collapse?: boolean
@@ -17,10 +14,13 @@ const props = withDefaults(defineProps<Props>(), {
   <div class="layout-logo-container" :class="{ collapse: props.collapse }">
     <transition name="layout-logo-fade">
       <router-link v-if="props.collapse" key="collapse" to="/">
-        <img :src="logo" class="layout-logo" />
+        <SvgIcon name="vite" class="layout-logo" />
       </router-link>
       <router-link v-else key="expand" to="/">
-        <img :src="logoText1" class="layout-logo-text" />
+        <div class="layout-logo-text">
+          <SvgIcon name="vite" class="icon" />
+          <span>Vite</span>
+        </div>
       </router-link>
     </transition>
   </div>
@@ -41,6 +41,11 @@ const props = withDefaults(defineProps<Props>(), {
   .layout-logo-text {
     height: 100%;
     vertical-align: middle;
+    .icon{
+      width: 100%;
+      height: var(--v3-navigationbar-height);
+      vertical-align: middle;
+    }
   }
 }
 
