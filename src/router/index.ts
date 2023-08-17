@@ -3,6 +3,19 @@ const Layouts = () => import('@/layouts/index.vue');
 
 export const routes: RouteRecordRaw[] = [
   { path: '/:pathMatch(.*)*', component: () => import('@/pages/errorPage/404.vue'), meta: { hidden: true } },
+  {
+    path: '/redirect',
+    component: Layouts,
+    meta: {
+      hidden: true
+    },
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/pages/redirect/index.vue')
+      }
+    ]
+  },
   { path: '/login', component: () => import('@/pages/login/login.vue'), meta: { hidden: true } },
   {
     path: '/',
@@ -45,7 +58,7 @@ export const routes: RouteRecordRaw[] = [
         name: 'userInfo',
         meta: {
           title: '个人信息',
-          svgIcon: 'user'
+          svgIcon: 'user',
         }
       }
     ]

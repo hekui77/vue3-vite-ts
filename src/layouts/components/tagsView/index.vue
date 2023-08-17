@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
 import scrollPane from './scrollPane.vue';
-import { type RouteLocationNormalized, RouterLink, useRoute, RouteRecordRaw } from 'vue-router';
+import { type RouteLocationNormalized, RouterLink, useRoute, RouteRecordRaw, useRouter } from 'vue-router';
 import { useTagsViewStore } from '@/stores/modules/tagsView';
 import path from 'path-browserify';
 import { routes } from '@/router';
@@ -10,11 +10,39 @@ import { routes } from '@/router';
 export type TagView = Partial<RouteLocationNormalized>
 const route = useRoute();
 const tagsViewStore = useTagsViewStore();
+const router = useRouter();
 
 /** 标签页组件元素的引用数组 */
 const tagRefs = ref<InstanceType<typeof RouterLink>[]>([]);
 /** 固定的标签页 */
 let affixTags: TagView[] = [];
+
+/** 判断标签页是否激活 */
+const isActive = (tag: TagView) => {
+  return tag.path === route.path;
+};
+/** 判断标签页是否固定 */
+const isAffix = (tag: TagView) => {
+  return tag.meta?.affix;
+};
+/** 跳转到最后一个标签页 */
+const toLastView = (visitedViews: TagView[], view: TagView) => {
+  const latestView = visitedViews.slice(-1)[0];
+  console.log(latestView, view);
+
+  const fullPath = latestView?.fullPath;
+  if (fullPath !== undefined) {
+    router.push(fullPath);
+  } else {
+    // 如果 TagsView 全部被关闭了，则默认重定向到主页
+    if (view.name === 'dashboard') {
+      // 重新加载主页
+      router.push({ path: '/redirect' + view.path, query: view.query });
+    } else {
+      router.push('/');
+    }
+  }
+};
 
 /** 筛选出固定标签页 */
 const filterAffixTags = (routes: RouteRecordRaw[], basePath = '/') => {
@@ -50,15 +78,12 @@ const addTags = () => {
     tagsViewStore.addVisitedView(route);
   }
 };
+/** 删除标签 */
+const closeSelectedTag = (view: TagView) => {
+  tagsViewStore.delVisitedView(view);
+  isActive(view) && toLastView(tagsViewStore.visitedViews, view);
+};
 
-/** 判断标签页是否激活 */
-const isActive = (tag: TagView) => {
-  return tag.path === route.path;
-};
-/** 判断标签页是否固定 */
-const isAffix = (tag: TagView) => {
-  return tag.meta?.affix;
-};
 
 onMounted(() => {
   initTags();
@@ -86,7 +111,7 @@ watch(
         :to="{ path: tag.path, query: tag.query }"
       >
         {{ tag.meta?.title }}
-        <el-icon v-if="!isAffix(tag)" :size="12">
+        <el-icon v-if="!isAffix(tag)" :size="12" @click.prevent.stop="closeSelectedTag(tag)">
           <Close />
         </el-icon>
       </router-link>

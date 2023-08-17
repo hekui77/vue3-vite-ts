@@ -20,8 +20,15 @@ export const useTagsViewStore = defineStore('tagsView', () => {
     }
   };
 
+  /** 删除 visitedViews */
+  const delVisitedView = (view: TagView) => {
+    const index = visitedViews.value.findIndex((v) => v.path === view.path);
+    if (index !== -1) visitedViews.value.splice(index, 1);
+  };
+
   return {
     visitedViews,
-    addVisitedView
+    addVisitedView,
+    delVisitedView
   };
 });
