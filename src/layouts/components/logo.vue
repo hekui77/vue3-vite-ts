@@ -17,10 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
         <SvgIcon name="vite" class="layout-logo" />
       </router-link>
       <router-link v-else key="expand" to="/">
-        <div class="layout-logo-text">
-          <SvgIcon name="vite" class="icon" />
-          <span>Vite</span>
-        </div>
+        <SvgIcon name="vite" class="layout-logo-text" />
       </router-link>
     </transition>
   </div>
@@ -39,13 +36,9 @@ const props = withDefaults(defineProps<Props>(), {
     display: none;
   }
   .layout-logo-text {
-    height: 100%;
+    width: 100%;
+    height: var(--v3-navigationbar-height);
     vertical-align: middle;
-    .icon{
-      width: 100%;
-      height: var(--v3-navigationbar-height);
-      vertical-align: middle;
-    }
   }
 }
 
