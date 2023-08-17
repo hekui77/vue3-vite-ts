@@ -26,9 +26,24 @@ export const useTagsViewStore = defineStore('tagsView', () => {
     if (index !== -1) visitedViews.value.splice(index, 1);
   };
 
+  /** 删除其他 visitedViews */
+  const delOthersVisitedViews = (view: TagView) => {
+    visitedViews.value = visitedViews.value.filter((v) => {
+      return v.meta?.affix || v.path === view.path;
+    });
+  };
+
+  /** 全部删除 visitedViews */
+  const delAllVisitedViews = () => {
+    // 只保留固定的 tags
+    visitedViews.value = visitedViews.value.filter((tag) => tag.meta?.affix);
+  };
+
   return {
     visitedViews,
     addVisitedView,
-    delVisitedView
+    delVisitedView,
+    delOthersVisitedViews,
+    delAllVisitedViews
   };
 });

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue';
+import { getCurrentInstance, onMounted, ref, watch } from 'vue';
 import scrollPane from './scrollPane.vue';
 import { type RouteLocationNormalized, RouterLink, useRoute, RouteRecordRaw, useRouter } from 'vue-router';
 import { useTagsViewStore } from '@/stores/modules/tagsView';
@@ -16,6 +16,15 @@ const router = useRouter();
 const tagRefs = ref<InstanceType<typeof RouterLink>[]>([]);
 /** 固定的标签页 */
 let affixTags: TagView[] = [];
+/** 右键菜单的状态 */
+const visible = ref(false);
+/** 右键菜单的 top 位置 */
+const top = ref(0);
+/** 右键菜单的 left 位置 */
+const left = ref(0);
+/** 当前正在右键操作的标签页 */
+const selectedTag = ref<TagView>({});
+const instance = getCurrentInstance();
 
 /** 判断标签页是否激活 */
 const isActive = (tag: TagView) => {
@@ -28,8 +37,6 @@ const isAffix = (tag: TagView) => {
 /** 跳转到最后一个标签页 */
 const toLastView = (visitedViews: TagView[], view: TagView) => {
   const latestView = visitedViews.slice(-1)[0];
-  console.log(latestView, view);
-
   const fullPath = latestView?.fullPath;
   if (fullPath !== undefined) {
     router.push(fullPath);
@@ -85,6 +92,52 @@ const closeSelectedTag = (view: TagView) => {
 };
 
 
+/** 刷新当前正在右键操作的标签页 */
+const refreshSelectedTag = (view: TagView) => {
+  router.replace({ path: '/redirect' + view.path, query: view.query });
+};
+
+
+/** 关闭其他标签页 */
+const closeOthersTags = () => {
+  const fullPath = selectedTag.value.fullPath;
+  if (fullPath !== route.path && fullPath !== undefined) {
+    router.push(fullPath);
+  }
+  tagsViewStore.delOthersVisitedViews(selectedTag.value);
+};
+
+/** 关闭所有标签页 */
+const closeAllTags = (view: TagView) => {
+  tagsViewStore.delAllVisitedViews();
+  if (affixTags.some((tag) => tag.path === route.path)) return;
+  toLastView(tagsViewStore.visitedViews, view);
+};
+
+/** 打开右键菜单面板 */
+const openMenu = (tag: TagView, e: MouseEvent) => {
+  const menuMinWidth = 105;
+  // 当前组件距离浏览器左端的距离
+  const offsetLeft = instance!.proxy!.$el.getBoundingClientRect().left;
+  // 当前组件宽度
+  const offsetWidth = instance!.proxy!.$el.offsetWidth;
+  // 面板的最大左边距
+  const maxLeft = offsetWidth - menuMinWidth;
+  // 面板距离鼠标指针的距离
+  const left15 = e.clientX - offsetLeft + 15;
+  left.value = left15 > maxLeft ? maxLeft : left15;
+  top.value = e.clientY;
+  // 显示面板
+  visible.value = true;
+  // 更新当前正在右键操作的标签页
+  selectedTag.value = tag;
+};
+
+/** 关闭右键菜单面板 */
+const closeMenu = () => {
+  visible.value = false;
+};
+
 onMounted(() => {
   initTags();
   addTags();
@@ -96,6 +149,9 @@ watch(
   },
   { deep: true }
 );
+watch(visible, (value) => {
+  value ? document.body.addEventListener('click', closeMenu) : document.body.removeEventListener('click', closeMenu);
+});
 
 </script>
 
@@ -109,6 +165,7 @@ watch(
         :class="{ active: isActive(tag) }"
         class="tags-view-item"
         :to="{ path: tag.path, query: tag.query }"
+        @contextmenu.prevent="openMenu(tag, $event)"
       >
         {{ tag.meta?.title }}
         <el-icon v-if="!isAffix(tag)" :size="12" @click.prevent.stop="closeSelectedTag(tag)">
@@ -116,6 +173,12 @@ watch(
         </el-icon>
       </router-link>
     </scrollPane>
+    <ul v-show="visible" class="contextmenu" :style="{ left: left + 'px', top: top + 'px' }">
+      <li @click="refreshSelectedTag(selectedTag)">刷新</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">关闭</li>
+      <li @click="closeOthersTags">关闭其它</li>
+      <li @click="closeAllTags(selectedTag)">关闭所有</li>
+    </ul>
   </div>
 </template>
 
