@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-rou
 const Layouts = () => import('@/layouts/index.vue');
 
 export const routes: RouteRecordRaw[] = [
+  { path: '/:pathMatch(.*)*', component: () => import('@/pages/errorPage/404.vue'), meta: { hidden: true } },
   { path: '/login', component: () => import('@/pages/login/login.vue'), meta: { hidden: true } },
   {
     path: '/',
