@@ -9,7 +9,8 @@
         <navigationBar />
         <tagsView v-show="showTagsView" />
       </div>
-      <router-view></router-view>
+      <!-- 页面主体内容 -->
+      <appMain class="app-main" />
     </div>
   </div>
 </template>
@@ -17,6 +18,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import navigationBar from './components/navigationBar.vue';
+import appMain from './components/appMain.vue';
 import tagsView from './components/tagsView/index.vue';
 import sidebar from './components/sidebar/index.vue';
 import { useAppStore } from '@/stores/modules/app';
