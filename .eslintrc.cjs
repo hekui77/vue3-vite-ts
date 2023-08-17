@@ -47,6 +47,7 @@ module.exports = {
     'space-infix-ops': ['error', { 'int32Hint': false }],
     'object-curly-spacing': ['error', 'always'],
     '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/ban-ts-comment': 0,
     'no-unused-vars': [
       'warn',
       { varsIgnorePattern: '.*', args: 'none' }

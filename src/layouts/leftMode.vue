@@ -3,10 +3,11 @@
     <div v-if="layoutClasses.mobile && layoutClasses.openSidebar" class="drawer-bg" @click="handleClickOutside" />
     <!-- 左侧边栏 -->
     <sidebar class="sidebar-container" />
-    <div class="main-container">
+    <div :class="{ hasTagsView: showTagsView }" class="main-container">
       <!-- 头部导航栏 -->
       <div class="layout-header">
         <navigationBar />
+        <tagsView v-show="showTagsView" />
       </div>
       <router-view></router-view>
     </div>
@@ -16,9 +17,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import navigationBar from './components/navigationBar.vue';
+import tagsView from './components/tagsView/index.vue';
 import sidebar from './components/sidebar/index.vue';
 import { useAppStore } from '@/stores/modules/app';
 
+
+const showTagsView = true; // 显示标签栏
 
 const appStore = useAppStore();
 /** 定义计算属性 layoutClasses，用于控制布局的类名 */
