@@ -11,16 +11,15 @@ This template should help get you started developing with Vue 3 and TypeScript i
 - [x] **Vue Router**：路由路由
 - [x] **TypeScript**：JavaScript 语言的超集
 - [x] **Mockjs**：模拟请求数据
-- [ ] **Scss**：和 Element Plus 保持一致
-- [ ] **CSS 变量**：主要控制项目的布局和颜色
+- [x] **Scss**：和 Element Plus 保持一致
+- [x] **CSS 变量**：主要控制项目的布局和颜色
 - [x] **ESlint**：代码校验
-- [ ] **Prettier**：代码格式化
 - [x] **Axios**：发送网络请求（已封装好）
 
 
 ## 功能
 
-- [ ] **用户管理**：登录、登出演示
+- [x] **用户管理**：登录、登出演示
 - [ ] **权限管理**：内置页面权限（动态路由）、指令权限、权限函数、路由守卫
 - [ ] **多环境**：开发环境（development）、预发布环境（staging）、正式环境（production）
 - [ ] **多主题**：内置普通、黑暗、深蓝三种主题模式
