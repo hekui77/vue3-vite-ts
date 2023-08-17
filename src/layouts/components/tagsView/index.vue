@@ -1,14 +1,56 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import scrollPane from './scrollPane.vue';
-import { type RouteLocationNormalized, RouterLink, useRoute } from 'vue-router';
+import { type RouteLocationNormalized, RouterLink, useRoute, RouteRecordRaw } from 'vue-router';
+import { useTagsViewStore } from '@/stores/modules/tagsView';
+import path from 'path-browserify';
+import { routes } from '@/router';
 
 
 export type TagView = Partial<RouteLocationNormalized>
 const route = useRoute();
+const tagsViewStore = useTagsViewStore();
 
 /** 标签页组件元素的引用数组 */
 const tagRefs = ref<InstanceType<typeof RouterLink>[]>([]);
+/** 固定的标签页 */
+let affixTags: TagView[] = [];
+
+/** 筛选出固定标签页 */
+const filterAffixTags = (routes: RouteRecordRaw[], basePath = '/') => {
+  const tags: TagView[] = [];
+  routes.forEach((route) => {
+    if (isAffix(route)) {
+      const tagPath = path.resolve(basePath, route.path);
+      tags.push({
+        fullPath: tagPath,
+        path: tagPath,
+        name: route.name,
+        meta: { ...route.meta }
+      });
+    }
+    if (route.children) {
+      const childTags = filterAffixTags(route.children, route.path);
+      tags.push(...childTags);
+    }
+  });
+  return tags;
+};
+/** 初始化标签 */
+const initTags = () => {
+  affixTags = filterAffixTags(routes);
+  for (const tag of affixTags) {
+    // 必须含有 name 属性
+    tag.name && tagsViewStore.addVisitedView(tag);
+  }
+};
+/** 添加标签 */
+const addTags = () => {
+  if (route.name) {
+    tagsViewStore.addVisitedView(route);
+  }
+};
+
 /** 判断标签页是否激活 */
 const isActive = (tag: TagView) => {
   return tag.path === route.path;
@@ -18,8 +60,17 @@ const isAffix = (tag: TagView) => {
   return tag.meta?.affix;
 };
 
-const visitedViews = ref<TagView[]>([route]);
-
+onMounted(() => {
+  initTags();
+  addTags();
+});
+watch(
+  route,
+  () => {
+    addTags();
+  },
+  { deep: true }
+);
 
 </script>
 
@@ -28,7 +79,7 @@ const visitedViews = ref<TagView[]>([route]);
     <scrollPane class="tags-view-wrapper" :tag-refs="tagRefs">
       <router-link
         ref="tagRefs"
-        v-for="tag in visitedViews"
+        v-for="tag in tagsViewStore.visitedViews"
         :key="tag.path"
         :class="{ active: isActive(tag) }"
         class="tags-view-item"
