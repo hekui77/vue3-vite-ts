@@ -2,12 +2,15 @@
 import breadcrumb from './breadcrumb.vue';
 import hamburger from './hamburger.vue';
 import { useUserStore } from '@/stores/modules/user';
+import { useTagsViewStore } from '@/stores/modules/tagsView';
 import router from '@/router';
 
 const userStore = useUserStore();
+const tagsViewStore = useTagsViewStore();
 
 const logout = () => {
   userStore.logout();
+  tagsViewStore.delAllVisitedViews();
   router.push('/login');
 };
 const handleUserInfo = () => {
