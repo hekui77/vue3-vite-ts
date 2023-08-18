@@ -62,51 +62,6 @@ export const routes: RouteRecordRaw[] = [
         }
       }
     ]
-  },
-  {
-    path: '/menuManage',
-    component: Layouts,
-    redirect: '/menuManage/index1',
-    meta: {
-      title: '路由管理',
-      svgIcon: 'menu',
-    },
-    children: [
-      {
-        path: '/menuManage/index1',
-        name: 'menuManage1',
-        redirect: '/menuManage/index1-1',
-        meta: {
-          title: 'menu1',
-        },
-        children: [
-          {
-            path: '/menuManage/index1-1',
-            component: () => import('@/pages/menuManage/menu1/menu1-1/index.vue'),
-            name: 'menuManage1-1',
-            meta: {
-              title: 'menu1-1',
-            },
-          },
-          {
-            path: '/menuManage/index1-2',
-            component: () => import('@/pages/menuManage/menu1/menu1-2/index.vue'),
-            name: 'menuManage1-2',
-            meta: {
-              title: 'menu1-2',
-            },
-          }
-        ]
-      },
-      {
-        path: '/menuManage/index2',
-        component: () => import('@/pages/menuManage/menu2/index.vue'),
-        name: 'menuManage2',
-        meta: {
-          title: 'menu2',
-        }
-      },
-    ]
   }
 ];
 
