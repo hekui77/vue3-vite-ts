@@ -62,6 +62,26 @@ export const routes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: '/menuManage',
+    component: Layouts,
+    redirect: '/menuManage/index',
+    meta: {
+      title: '菜单管理',
+      svgIcon: 'menu',
+    },
+    children: [
+      {
+        path: '/menuManage/index',
+        component: () => import('@/pages/menuManage/index.vue'),
+        name: 'menuManage',
+        meta: {
+          title: '菜单管理',
+          svgIcon: 'menu',
+        }
+      }
+    ]
   }
 ];
 
