@@ -49,7 +49,6 @@ export const routes: RouteRecordRaw[] = [
         name: 'userManage',
         meta: {
           title: '用户管理',
-          svgIcon: 'users',
         }
       },
       {
@@ -58,7 +57,6 @@ export const routes: RouteRecordRaw[] = [
         name: 'userInfo',
         meta: {
           title: '个人信息',
-          svgIcon: 'user',
         }
       }
     ]
