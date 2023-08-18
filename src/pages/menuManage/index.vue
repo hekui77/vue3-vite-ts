@@ -12,12 +12,20 @@ const form = reactive({
   desc: '',
 });
 
-const labelWidth: string = '100px';
+const labelWidth: string = '70px';
 
 
 const onSubmit = () => {
   console.log('submit!');
 };
+
+const tableData = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  }
+];
 </script>
 
 <template>
@@ -52,7 +60,8 @@ const onSubmit = () => {
           </el-col>
           <el-col :span="12" :md="6" :xs="24">
             <el-form-item>
-              <span :style="{ width: labelWidth }"></span>
+              <span :style="{ width: labelWidth }" class="more-search">
+              </span>
               <el-button type="primary" @click="onSubmit">搜索</el-button>
               <el-button>重置</el-button>
             </el-form-item>
@@ -60,11 +69,24 @@ const onSubmit = () => {
         </el-row>
       </el-form>
     </el-card>
+
+    <el-card style="margin-top: 8px;">
+      <el-table :data="tableData">
+        <el-table-column prop="date" label="Date" />
+        <el-table-column prop="name" label="Name" />
+        <el-table-column prop="address" label="Address" /></el-table>
+    </el-card>
   </div>
 </template>
 
 <style scoped lang="scss">
 .el-form-item {
   width: 100%;
+}
+
+.more-search {
+  font-size: var(--el-font-size-extra-small);
+  color: var(--el-color-primary);
+  cursor: pointer;
 }
 </style>
