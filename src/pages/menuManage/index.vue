@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 const form = reactive({
   name: '',
@@ -13,6 +13,7 @@ const form = reactive({
 });
 
 const labelWidth: string = '70px';
+const dialogVisible = ref<boolean>(false);
 
 
 const onSubmit = () => {
@@ -71,12 +72,19 @@ const tableData = [
     </el-card>
 
     <el-card style="margin-top: 8px;">
+      <el-button type="primary" @click="dialogVisible = true">新增</el-button>
       <el-table :data="tableData">
         <el-table-column prop="date" label="Date" />
         <el-table-column prop="name" label="Name" />
         <el-table-column prop="address" label="Address" /></el-table>
     </el-card>
   </div>
+
+  <el-dialog
+    v-model="dialogVisible"
+    title="新增菜单"
+  >
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">
